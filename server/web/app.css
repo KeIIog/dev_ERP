@@ -1,0 +1,201 @@
+
+*{box-sizing:border-box} body{margin:0;background:#f5f5f7;color:#111827;font-family:"Malgun Gothic","Apple SD Gothic Neo",Arial,sans-serif} .hidden{display:none!important}.app{display:flex;min-height:100vh}.sidebar{width:220px;background:#1d1d1f;color:#fff;padding:28px 12px;position:fixed;left:0;top:0;bottom:0}.profile{display:grid;gap:4px}.mini-input{height:24px;border:0;background:#f5f5f7;color:#555;padding:0 8px}.blue-text{color:#0b63ce}.sep{border-top:1px solid #9b9b9b;margin:22px 0}.nav-item{display:flex;align-items:center;gap:12px;width:100%;border:0;background:transparent;color:#e5e7eb;text-align:left;padding:14px 22px;border-radius:10px;font-size:15px;margin:4px 0;cursor:pointer}.nav-item.active{background:#0a84ff;color:white}.logout{position:absolute;bottom:28px;left:28px;background:transparent;color:#e5e7eb;border:0;cursor:pointer}.content{margin-left:220px;width:calc(100% - 220px);padding:20px 26px}.page{display:none}.page.active{display:block}h2{font-size:30px;margin:0 0 18px;font-weight:800}.form-grid{display:grid;grid-template-columns:140px 1fr 140px 1fr;gap:12px;align-items:center;background:white;border:1px solid #dddfe5;border-radius:14px;padding:20px;margin-bottom:14px}.form-grid.two{grid-template-columns:120px 1fr}input,select,textarea{font-family:inherit;border:1px solid #cfd3dc;border-radius:8px;height:36px;padding:0 12px;background:#fff;font-size:15px}.preview-title,.settings-card,.hint-box,.status-panel{background:white;border:1px solid #dddfe5;border-radius:14px;padding:16px;margin:14px 0}.preview-title b{display:block;margin-bottom:10px}.btn{border:0;border-radius:9px;padding:11px 20px;font-size:15px;font-weight:700;cursor:pointer;margin:0 4px}.btn.blue{background:#007aff;color:white}.btn.green{background:#34c759;color:white}.btn.red{background:#ff3b30;color:white}.btn.purple{background:#5856d6;color:white}.btn.light{background:#eef0f5;color:#111}.btn.mint{background:#e6fff2;color:#00a84f;text-decoration:none}.btn.submit,.btn.complete{background:#f8f8fb;color:#111;border:2px solid #111;border-radius:12px;font-size:18px;padding:18px 52px}.table-toolbar,.title-row{display:flex;align-items:center;gap:10px;margin:14px 0}.title-row{justify-content:space-between}.actions{display:flex;gap:10px}.table-wrap{background:white;border:1px solid #dde1e8;border-radius:12px;overflow:auto}.table-wrap.grow{height:570px}.grid{border-collapse:collapse;width:100%;font-size:14px}.grid th,.grid td{border:1px solid #e1e4ea;padding:8px 10px;min-width:70px;white-space:nowrap}.grid th{background:#f0f1f6;color:#4b5563;text-align:center;font-weight:700}.grid tbody tr.selected,.grid td.cell-selected{background:#d8ecff!important;color:#005ecb}.grid .group-row td{font-weight:700;background:#fff}.grid.small{font-size:13px}.checkbox-line{display:flex;align-items:center;gap:8px;margin:16px 0;font-size:15px}.checkbox-line input{height:auto}.subbox{border:2px solid #ffcc00;background:#fffdf0;border-radius:12px;padding:14px;margin:12px 0}.bottom-actions{display:flex;gap:16px;align-items:center;margin:18px 0}.request-no-box{border:2px solid #ffcc00;background:#fffdf0;border-radius:12px;padding:14px;flex:1}.request-no-box input{width:100%;height:44px;font-size:18px;margin-top:8px}.cards{display:grid;grid-template-columns:repeat(3,minmax(180px,1fr));gap:18px}.card{background:white;border:1px solid #dddfe5;border-radius:14px;padding:22px}.card b{display:block;color:#4b5563;margin-bottom:18px}.card span{font-size:34px;font-weight:800}.card.clickable{cursor:pointer}.card.danger span{color:#ff3b30}.card.warn span{color:#ff9500}.panel-title{font-size:20px;font-weight:800;margin-bottom:12px}.panel-title span{float:right;font-size:13px;font-weight:400;color:#6b7280}.legend{display:flex;gap:28px;margin:8px 0 14px}.dot,.box,.check{display:inline-block;width:18px;height:18px;border:1px solid #111;margin-right:6px;vertical-align:middle}.dot{border-radius:50%}.red{color:#ff3b30}.yellow{background:#ffea00}.blue{background:#007aff}.green{background:#34c759}.search-row{display:flex;gap:16px;margin:14px 0}.search-row input{flex:1;height:48px}.modal{position:fixed;z-index:99;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center}.modal-card{background:white;border-radius:16px;min-width:720px;max-width:96vw;max-height:92vh;overflow:auto}.modal-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ddd;padding:16px 20px}.modal-head h3{margin:0;font-size:22px}.modal-head button{border:0;background:#f0f1f6;border-radius:8px;font-size:28px;width:44px;height:44px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;border-top:1px solid #ddd;padding:14px 18px}.modal-body{padding:18px}.login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#f5f5f7}.login-card{width:360px;background:#fff;border-radius:18px;border:1px solid #ddd;padding:28px}.login-card label{display:block;margin:12px 0 6px}.login-card input{width:100%}.full{width:100%;margin-top:18px}.msg{color:#ff3b30;margin-top:12px}.small-info{font-size:13px;color:#4b5563;margin:8px 0}.vendor-badge{display:inline-block;background:#eef0ff;color:#333;border-radius:12px;padding:2px 8px;font-size:12px;margin-left:6px}.linkbtn{border:0;background:transparent;color:#0066cc;font-weight:700;cursor:pointer}.kv{display:grid;grid-template-columns:160px 1fr 160px 1fr;gap:8px;align-items:center}.kv label{font-weight:700;background:#f0f1f6;padding:8px;border-radius:6px}
+
+
+/* AGENT_SIDEBAR_STATIC_V3_20260512 */
+.sidebar-agent-panel{
+  position:absolute!important;
+  left:12px!important;
+  right:12px!important;
+  bottom:72px!important;
+  z-index:20!important;
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+  background:#2b2b2f!important;
+  border:1px solid rgba(255,255,255,.22)!important;
+  border-radius:12px!important;
+  padding:10px!important;
+  color:#f5f5f7!important;
+  box-shadow:0 8px 20px rgba(0,0,0,.25)!important;
+}
+.sidebar-agent-title{font-size:12px!important;font-weight:800!important;margin-bottom:8px!important;color:#fff!important;line-height:1.2!important;}
+.sidebar-agent-state{display:flex!important;align-items:center!important;gap:7px!important;min-height:20px!important;margin-bottom:9px!important;}
+.agent-dot{width:9px!important;height:9px!important;border-radius:50%!important;display:inline-block!important;background:#9ca3af!important;flex:0 0 9px!important;}
+.agent-dot.running{background:#34c759!important;}
+.agent-dot.stopped{background:#ff3b30!important;}
+.agent-dot.warn{background:#ff9500!important;}
+.agent-dot.checking{background:#a0a0a7!important;}
+.agent-status-text{font-size:12px!important;line-height:1.25!important;word-break:keep-all!important;color:#f5f5f7!important;}
+.sidebar-agent-actions{display:grid!important;grid-template-columns:1fr 1fr!important;gap:6px!important;}
+.agent-mini-btn{height:28px!important;border:0!important;border-radius:8px!important;background:#3a3a3f!important;color:#fff!important;font-size:12px!important;font-weight:700!important;cursor:pointer!important;padding:0!important;margin:0!important;}
+.agent-mini-btn:hover{background:#4a4a50!important;}
+.agent-mini-btn:disabled{opacity:.55!important;cursor:default!important;}
+
+
+/* MATERIAL_BUDGET_PATCH_20260520 */
+.budget-status{background:#fff;border:1px solid #dde1e8;border-radius:12px;padding:12px 14px;margin:10px 0 14px;font-size:14px;color:#374151;line-height:1.45}
+.budget-status.ok{border-color:#34c759;background:#f0fff6;color:#065f46}
+.budget-status.warn{border-color:#ff9500;background:#fff8e8;color:#92400e}
+.budget-status.bad{border-color:#ff3b30;background:#fff1f0;color:#991b1b}
+.material-summary{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px}
+.material-summary span{display:inline-block;border:1px solid #d1d5db;border-radius:999px;padding:4px 10px;background:#fff;font-size:13px}
+#material-budget-table td:nth-child(4),#material-budget-table td:nth-child(5),#material-budget-table td:nth-child(6){text-align:right}
+
+/* 입고현황 구매의뢰서 번호별 폴더 트리 */
+.receipt-tree-cell{display:flex;align-items:center;gap:6px;white-space:nowrap}.tree-toggle{width:24px;height:24px;border:0;border-radius:6px;background:#eef0f5;color:#111;font-weight:800;cursor:pointer;line-height:1}.tree-toggle:hover{background:#dde4f2}.tree-count{font-size:12px;color:#6b7280;font-weight:500;margin-left:6px}.receipt-child-row td{background:#fbfcff}.vendor-sub-row td{background:#f8fafc!important}.tree-indent{display:inline-block;width:18px}.item-indent{margin-left:24px}.vendor-indent{margin-left:12px}.receipt-root-row{cursor:default}
+
+/* Receipt tree: purchase request number group expand/collapse button */
+#receipt-table .receipt-root-row > td:first-child{cursor:pointer;}
+#receipt-table .receipt-tree-root{gap:8px;}
+#receipt-table .tree-toggle{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;min-width:22px;border:1px solid #9ca3af;border-radius:5px;background:#ffffff;color:#111827;font-size:17px;font-weight:900;line-height:1;vertical-align:middle;box-shadow:0 1px 2px rgba(0,0,0,.08);}
+#receipt-table .tree-toggle.collapsed{background:#f9fafb;}
+#receipt-table .tree-toggle.expanded{background:#eef6ff;border-color:#2563eb;color:#1d4ed8;}
+#receipt-table .tree-toggle:hover{background:#e8f1ff;border-color:#2563eb;color:#1d4ed8;}
+
+/* RECEIPT_ADMIN_EDIT_PATCH_20260521 */
+#receipt-table td[contenteditable="true"]{background:#fffef7;outline:none;cursor:text;}
+#receipt-table td[contenteditable="true"]:focus{background:#eaf3ff;box-shadow:inset 0 0 0 2px #2563eb;}
+#receipt-table td[contenteditable="true"].saving{background:#fff8db;}
+#receipt-table td[contenteditable="true"].error{background:#ffecec;}
+
+
+/* DEV_ERP_COMPACT_95_UI_20260527
+   전체 UI 배율을 95%로 조정합니다.
+   Chrome/Edge는 zoom을 지원하므로 서버/클라이언트 PC 기본 브라우저 기준으로 적용됩니다. */
+html, body{
+  zoom:0.95;
+}
+@supports not (zoom: 1){
+  body{transform:scale(0.95);transform-origin:top left;width:105.263%;min-height:105.263vh;}
+}
+/* zoom 미지원/혼합 환경 보정 */
+.content{padding:16px 20px;}
+h2{font-size:26px;margin-bottom:14px;}
+.btn{padding:8px 14px;font-size:14px;border-radius:8px;}
+.btn.submit,.btn.complete{font-size:16px;padding:14px 38px;border-radius:10px;}
+input,select,textarea{height:32px;font-size:14px;padding:0 10px;border-radius:7px;}
+.search-row input{height:40px;}
+.form-grid{gap:9px;padding:15px;margin-bottom:10px;border-radius:11px;}
+.preview-title,.settings-card,.hint-box,.status-panel{padding:12px;margin:10px 0;border-radius:11px;}
+.subbox{padding:10px;margin:9px 0;border-radius:10px;}
+.table-toolbar,.title-row{gap:8px;margin:10px 0;}
+.grid{font-size:13px;}
+.grid.small{font-size:12px;}
+.grid th,.grid td{padding:5px 8px;min-width:58px;}
+.table-wrap.grow{height:620px;}
+.cards{gap:12px;}
+.card{padding:16px;border-radius:11px;}
+.card b{margin-bottom:10px;}
+.card span{font-size:28px;}
+.legend{gap:18px;margin:6px 0 10px;}
+.dot,.box,.check{width:15px;height:15px;}
+.modal-card{border-radius:12px;}
+.modal-head{padding:12px 16px;}
+.modal-head h3{font-size:20px;}
+.modal-body{padding:14px;}
+.modal-actions{padding:10px 14px;}
+.sidebar{width:190px;padding:22px 10px;}
+.content{margin-left:190px;width:calc(100% - 190px);}
+.nav-item{padding:11px 18px;font-size:14px;border-radius:8px;}
+.sidebar-agent-panel{bottom:60px!important;padding:8px!important;border-radius:10px!important;}
+.agent-mini-btn{height:24px!important;font-size:11px!important;}
+
+/* QUALITY_CONTROL_BUTTON_LEGEND_VISIBLE_20260527 */
+#page-receipt .legend{display:flex!important;align-items:center!important;gap:18px!important;flex-wrap:wrap!important;}
+#quality-control-btn.quality-control-inline{display:inline-flex!important;align-items:center!important;justify-content:center!important;margin-left:28px!important;min-width:118px!important;height:42px!important;padding:8px 16px!important;white-space:nowrap!important;visibility:visible!important;opacity:1!important;}
+
+/* DEV_ERP_STICKY_TABLE_HEADERS_20260527 */
+/* 대시보드/발주관리/입고현황 등 모든 grid 표의 칼럼 제목을 엑셀 틀고정처럼 고정 */
+.table-wrap{
+  position:relative;
+}
+.table-wrap.grow{
+  overflow:auto;
+}
+.grid thead th{
+  position:sticky;
+  top:0;
+  z-index:30;
+  background:#f0f1f6!important;
+  box-shadow:0 1px 0 #d1d5db, 0 2px 4px rgba(0,0,0,.06);
+}
+/* 대시보드처럼 grow가 없는 표도 내용이 많으면 표 내부 스크롤에서 헤더가 따라오도록 보정 */
+#dashboard-orders{
+  position:relative;
+}
+#page-dashboard .table-wrap,
+#page-orders .table-wrap.grow,
+#page-receipt .table-wrap.grow{
+  max-height:calc(100vh - 230px);
+  overflow:auto;
+}
+#page-dashboard .grid thead th,
+#page-orders .grid thead th,
+#page-receipt .grid thead th{
+  top:0;
+}
+/* 고정 헤더가 선택/그룹 행보다 항상 위에 오게 유지 */
+.grid tbody tr.selected td,
+.grid td.cell-selected{
+  z-index:1;
+}
+
+/* DEV_ERP_V2_ESTIMATE_PARSER_20260529 */
+.grid tr.vendor-total-row td{
+  background:#111827!important;
+  color:#ffffff!important;
+  font-weight:700!important;
+  border-top:2px solid #374151!important;
+  border-bottom:2px solid #374151!important;
+}
+.grid tr.vendor-total-row:hover td{
+  background:#111827!important;
+}
+#estimate-status .vendor-badge{
+  display:inline-block;
+  margin-top:3px;
+  margin-right:6px;
+}
+
+/* DEV_ERP v2.1.7 */
+.grid tr.vendor-total-row td[data-vendor-subtotal-name="1"]{
+  cursor:text;
+  text-decoration:underline dotted rgba(255,255,255,.75);
+}
+.grid tr.vendor-total-row td[data-vendor-subtotal-name="1"]:focus{
+  outline:2px solid #60a5fa;
+  outline-offset:-2px;
+}
+
+
+/* DEV_ERP v2.2.5 - actual received vendor management patch */
+.login-card .login-logo{display:none!important;}
+.login-card p{font-size:14px;line-height:1.45;color:#374151;margin:6px 0 14px;}
+#page-settings .settings-card .form-grid.two label{font-size:13px;line-height:1.15;white-space:nowrap;}
+#page-settings .settings-card .form-grid.two{grid-template-columns:130px minmax(0,1fr);}
+
+/* DEV_ERP v2.2.5 - 실제 입고품 다름 강조 및 업체명 칼럼 */
+.actual-diff-toggle{
+  display:flex!important;
+  align-items:center;
+  gap:12px;
+  width:max-content;
+  max-width:100%;
+  padding:12px 18px;
+  margin:18px 0 12px!important;
+  border:2px solid #f59e0b;
+  border-radius:12px;
+  background:#fff7ed;
+  color:#111827;
+  font-size:20px!important;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 1px 2px rgba(0,0,0,.06);
+}
+.actual-diff-toggle input{transform:scale(1.35);height:auto!important;margin:0!important;}
+.actual-diff-toggle small{font-size:13px;font-weight:600;color:#92400e;white-space:normal;}
+.actual-diff-toggle.checked{background:#fffbeb;border-color:#d97706;color:#92400e;}
+#actual-box{border-width:3px!important;}
+#actual-items th:last-child,#actual-items td:last-child{min-width:150px;background:#fffdf0;}
+#actual-items td[data-actual-vendor-cell="1"]{font-weight:700;color:#1f2937;}

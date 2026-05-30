@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <!-- INDEX_LOADER_CLEAN_FIX_20260509 -->
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <!-- LOGIN_ONLY_FIX_20260509 -->
+  <!-- APP_BOOTSTRAP_RECOVER_20260509 -->
+  <!-- INLINE_LOGIN_FORCE_20260509 -->
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DevERP</title>
+  <link rel="stylesheet" href="/web_static/app.css?v=20260530-dev-erp-v2-2-5" />
+</head>
+<body>
+  <div id="login-screen" class="login-screen">
+    <div class="login-card">
+      <h1>DevERP</h1>
+      <p>기본 비밀번호 1. 로그인 후 설정에서 변경 가능</p>
+      <form id="login-form">
+        <label>아이디</label>
+        <input id="login-id" autocomplete="username" value="admin" />
+        <label>비밀번호</label>
+        <input id="login-pw" type="password" autocomplete="current-password" />
+        <button type="submit" class="btn blue full">로그인</button>
+      </form>
+      <div id="login-msg" class="msg"></div>
+    </div>
+  </div>
+
+  <div id="app" class="app hidden">
+    <aside class="sidebar">
+      <div class="profile">
+        <input class="mini-input" readonly />
+        <input id="profile-name" class="mini-input name" readonly />
+        <input id="profile-role" class="mini-input name blue-text" readonly />
+      </div>
+      <div class="sep"></div>
+      <nav>
+        <button class="nav-item active" data-page="dashboard"><span>🏠</span>대시보드</button>
+        <button class="nav-item" data-page="purchase"><span>📄</span>구매의뢰 관리</button>
+        <button class="nav-item" data-page="orders"><span>📦</span>발주 관리</button>
+        <button class="nav-item" data-page="receipt"><span>⛏️</span>입고 관리</button>
+        <button class="nav-item" data-page="settings"><span>⚙️</span>설정</button>
+      </nav>
+      <button id="logout" class="logout">🚪 &nbsp;로그아웃</button>
+    </aside>
+
+    <main class="content">
+      <section id="page-dashboard" class="page active">
+        <h2>🏠 대시보드</h2>
+        <div class="cards dashboard-cards">
+          <div class="card clickable" data-dash-filter="all"><b>진행중 발주</b><span id="dash-order">-</span></div>
+          <div class="card clickable danger" data-dash-filter="delayed"><b>납기 지연</b><span id="dash-delay">-</span></div>
+          <div class="card clickable warn" data-dash-filter="soon"><b>납기 임박</b><span id="dash-soon">-</span></div>
+        </div>
+        <div class="status-panel">
+          <div class="panel-title">발주/납기 현황 <span>행을 클릭하면 상세 내용을 확인할 수 있습니다.</span></div>
+          <div class="table-wrap">
+            <table id="dashboard-orders" class="grid selectable copyable">
+              <thead><tr><th>납기상태</th><th>구매의뢰번호</th><th>제목</th><th>업체</th><th>상태</th><th>입고요청일</th><th>남은일수</th><th>품목수</th><th>구매의뢰자</th><th>발주자</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="page-purchase" class="page">
+        <div class="title-row">
+          <h2>📋 구매의뢰서 (정부과제용)</h2>
+          <div class="actions">
+            <button class="btn purple" type="button" id="material-manage">▣ 재료비관리</button>
+          </div>
+        </div>
+        <div class="form-grid">
+          <label>정부과제</label><select id="pr-project-base"><option value="">과제코드</option></select>
+          <label>연차</label><select id="pr-project-year"><option value="">연차 선택</option></select>
+          <label>정부과제코드</label><input id="pr-project-code" placeholder="예: R24GA01_01" readonly />
+          <label>항목</label><select id="pr-category"><option value="재료비">재료비</option><option value="장비비">장비비</option><option value="시제품제작비">시제품제작비</option><option value="외주용역비">외주용역비</option></select>
+          <label>세세목</label><input id="pr-sub-category" placeholder="예: 가공품" />
+          <label>구분</label><select id="pr-item-type"><option value="">구분 선택</option></select>
+          <label>구매 제목</label><input id="pr-title-main" placeholder="OOO을 위한 OOO" />
+          <label>실제 프로젝트</label><input id="pr-project-name" placeholder="실제 프로젝트" />
+          <label>요청자</label><input id="pr-requester" />
+          <label>부서</label><input id="pr-department" />
+          <label>납기일</label><input id="pr-required-date" type="date" />
+        </div>
+        <div class="preview-title">
+          <b>제목 미리보기</b>
+          <span id="pr-title-preview">제목 입력 시 자동으로 채워집니다. 필요 시 수정 가능합니다.</span>
+        </div>
+        <div id="pr-budget-status" class="budget-status">재료비관리 엑셀을 기준으로 연차/구분별 배정액·사용액·잔액이 표시됩니다. 사용액/잔액은 상신완료 건만 반영됩니다.</div>
+        <div class="subbox" id="pr-title-final-box">
+          <b>구매의뢰 제목 / 구매목적</b>
+          <p class="small-info">제목과 구매목적은 자동 생성되며, 필요 시 직접 수정 가능합니다.</p>
+          <div class="form-grid">
+            <label>구매의뢰 제목</label><input id="pr-title-full-edit" />
+            <label>구매목적</label><textarea id="pr-purpose-edit" rows="2"></textarea>
+          </div>
+        </div>
+        <div id="estimate-status" class="small-info">견적서는 여러 개 선택할 수 있으며, 1개 견적서 = 1개 업체 기준으로 품목이 누적됩니다.</div>
+        <div id="pr-vendor-box" class="subbox">
+          <b>추천업체</b>
+          <p class="small-info">견적서에서 인식된 업체를 업체관리 정보로 자동 보강합니다. 필요 시 직접 수정 가능합니다.</p>
+          <div class="table-toolbar">
+            <button class="btn light" type="button" id="add-pr-vendor">+ 업체 행 추가</button>
+            <button class="btn light" type="button" id="del-pr-vendor">업체 행 삭제</button>
+            <button class="btn light" type="button" id="refresh-pr-vendor">업체관리 정보 다시조회</button>
+          </div>
+          <div class="table-wrap">
+            <table id="pr-vendors" class="grid editable copyable">
+              <thead><tr>
+                <th>No.</th><th>추천업체</th><th>추천사유<br>(비교견적 불가 사유)</th><th>담당자(연락처)</th><th>이메일</th><th>FAX</th>
+              </tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="table-toolbar">
+          <button class="btn purple" id="estimate-btn">📎 견적서 첨부 → 품목 자동 인식</button>
+          <input id="estimate-file" type="file" class="hidden" multiple accept=".pdf,.xlsx,.xls,.xlsm,.docx,.doc" />
+          <button class="btn light" onclick="addItemRow('pr-items')">+ 행 추가</button>
+          <button class="btn light" onclick="delSelectedRow('pr-items')">행 삭제</button>
+        </div>
+        <div class="table-wrap">
+          <table id="pr-items" class="grid editable">
+            <thead><tr><th>No</th><th>품명</th><th>규격</th><th>예상단가</th><th>수량</th><th>단위</th><th>예상금액</th><th>축 구분</th><th>비고(제조사)</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <label class="checkbox-line actual-diff-toggle"><input id="actual-diff" type="checkbox" /> <span>⚠ 실제 입고품 다름</span><small>체크 시 아래 실제 입고 품목표 기준으로 QR·입고 관리가 생성됩니다.</small></label>
+        <div id="actual-box" class="subbox hidden">
+          <b>실제 입고 품목표</b>
+          <p>체크 시 견적서 자동인식 품목은 결재상신 참고용으로만 사용되고, QR 생성·입고 관리는 이 실제 입고 품목표 기준으로 진행됩니다. 업체명 칼럼 또는 합계금액 행의 업체명을 수정하면 업체별 입고 관리에 반영됩니다.</p>
+          <div class="table-toolbar">
+            <button class="btn light" onclick="addItemRow('actual-items')">+ 행 추가</button>
+            <button class="btn light" onclick="delSelectedRow('actual-items')">행 삭제</button>
+          </div>
+          <table id="actual-items" class="grid editable">
+            <thead><tr><th>No</th><th>품명</th><th>규격</th><th>예상단가</th><th>수량</th><th>단위</th><th>예상금액</th><th>축 구분</th><th>비고(제조사)</th><th>업체명</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="bottom-actions">
+          <div class="request-no-box">
+            <b>📝 구매의뢰서 번호 (상신 후 직접 입력)</b>
+            <input id="custom-request-no" placeholder="예: 2026-1111" />
+          </div>
+          <button class="btn submit" id="pr-submit">📤 결재 상신</button>
+          <button class="btn complete" id="pr-complete">✔ 상신완료</button>
+        </div>
+      </section>
+
+      <section id="page-orders" class="page">
+        <div class="title-row">
+          <h2>📦 발주 관리</h2>
+          <div class="actions">
+            <button class="btn purple" id="vendor-manage">▣ 업체관리</button>
+            <button class="btn blue" id="send-order">💌 발주서 전송</button>
+            <button class="btn green" id="order-complete">✔ 발주진행완료</button>
+            <button class="btn purple" id="tax-docs-complete">🧾 세금계산서/거래명세서 처리완료</button>
+            <button class="btn red" id="delete-order">🗑 선택삭제</button>
+            <button class="btn light" onclick="loadOrders()">🔄 새로고침</button>
+          </div>
+        </div>
+        <p class="guide">발주서 전송: 업체관리에 이메일 등록 → 클릭 시 Bizbox 메일 작성창 자동 오픈 (업체당 1개, 수신자·제목·본문 자동 입력)</p>
+        <div class="search-row">
+          <input id="orders-search" placeholder="모든 칼럼 검색: 구매의뢰번호, 제목, 업체, 상태, 납기일, QR 등" />
+        </div>
+        <div class="table-wrap grow">
+          <table id="orders-table" class="grid selectable copyable">
+            <thead><tr><th>구매의뢰번호</th><th>실제 프로젝트</th><th>제목</th><th>업체</th><th>상태</th><th>납기일</th><th>QR 개수</th><th>대표 QR</th><th>QR 열기</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="page-receipt" class="page">
+        <div class="title-row">
+          <h2>⛏️ 입고 관리</h2>
+          <div class="actions">
+            <a class="btn mint" id="qr-scan-link" target="_blank">📱 QR 스캔</a>
+            <button class="btn light" id="inspection-btn">📝 검수조사서 작성</button>
+            <button class="btn green" id="in-btn">🟢 입고처리</button>
+            <button class="btn blue" id="out-btn">🔵 출고</button>
+            <button class="btn red" id="receipt-delete-btn">🗑 선택삭제</button>
+            <button class="btn light" onclick="loadReceipt()">🔄 새로고침</button>
+          </div>
+        </div>
+        <div class="legend">
+          <span><i class="box red"></i>미입고</span>
+          <span><i class="dot yellow"></i>구매팀 입고</span>
+          <span><i class="dot blue"></i>출고</span>
+          <span><i class="dot green"></i>생산팀 입고</span>
+          <span><i class="check green"></i>완료</span>
+          <button class="btn purple quality-control-inline" id="quality-control-btn" type="button">📊 품질관리</button>
+        </div>
+        <div class="search-row">
+          <input id="receipt-search" placeholder="모든 칼럼 검색: 문서번호, 실제 프로젝트, PJT 코드, 프로젝트명, 품명, 규격, 업체, 입고/출고 날짜 등" />
+          <button class="btn light" id="receipt-clear">검색 초기화</button>
+        </div>
+        <div class="table-wrap grow">
+          <table id="receipt-table" class="grid selectable copyable small editable">
+            <thead><tr>
+              <th>문서번호</th><th>실제 프로젝트</th><th>PJT 코드</th><th>프로젝트명</th><th>입고</th><th>출고</th><th>발주번호</th><th>자재코드</th><th>자재명</th><th>Maker</th><th>규격</th><th>품목군</th><th>요청량</th><th>축구분</th><th>발생사유</th><th>발주차수</th><th>입고요청일자</th><th>실 입고일자</th><th>검수사진</th><th>비고</th><th>목록</th><th>구매의뢰자</th><th>발주자</th><th>입고자</th><th>출고자</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="page-settings" class="page">
+        <h2>⚙️ 설정</h2>
+        <div class="settings-card">
+          <h3>🤖 Bizbox 전자결재 계정</h3>
+          <p>저장하면 구매의뢰서 작성 및 발주서 전송 시 자동으로 입력됩니다.</p>
+          <div class="form-grid two">
+            <label>아이디</label><input id="set-biz-id" placeholder="Bizbox 아이디" />
+            <label>비밀번호</label><input id="set-biz-pw" type="password" placeholder="Bizbox 비밀번호" />
+            <label>자동화 실행 위치</label>
+            <select id="set-bizbox-mode">
+              <option value="client">클라이언트 PC Chrome에서 실행</option>
+              <option value="server">서버 PC Chrome에서 실행</option>
+            </select>
+          </div>
+          <button class="btn blue" id="save-settings">💾 설정 저장</button>
+        </div>
+
+        <div class="settings-card" id="password-change-card">
+          <h3>🔐 로그인 비밀번호 변경</h3>
+          <p>직원 기본 비밀번호는 1입니다. 로그인 후 개인 비밀번호로 변경할 수 있습니다.</p>
+          <div class="form-grid two">
+            <label>현재 비밀번호</label><input id="set-current-pw" type="password" placeholder="현재 비밀번호" autocomplete="current-password" />
+            <label>새 비밀번호</label><input id="set-new-pw" type="password" placeholder="새 비밀번호" autocomplete="new-password" />
+            <label>새 비밀번호 확인</label><input id="set-new-pw-confirm" type="password" placeholder="새 비밀번호 확인" autocomplete="new-password" />
+          </div>
+          <button class="btn blue" id="change-password">🔐 비밀번호 변경</button>
+        </div>
+        <div class="settings-card">
+          <h3>🖥️ 서버 PC IP 정보</h3>
+          <div id="server-url-info"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 id="modal-title"></h3>
+        <button onclick="closeModal()">×</button>
+      </div>
+      <div id="modal-body"></div>
+      <div id="modal-actions" class="modal-actions"></div>
+    </div>
+  </div>
+  <script src="/web_static/app.js?v=20260530-dev-erp-v2-2-5"></script>
+</body>
+</html>

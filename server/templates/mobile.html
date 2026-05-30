@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#0071E3">
+<title>DevERP 모바일</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;
+         background:#F5F5F7; color:#1D1D1F; min-height:100vh; }
+  .header { background:#0071E3; color:white; padding:16px 20px;
+            display:flex; align-items:center; justify-content:space-between;
+            position:sticky; top:0; z-index:100; box-shadow:0 2px 12px rgba(0,113,227,.3); }
+  .header h1 { font-size:18px; font-weight:700; }
+  .header .user-badge { background:rgba(255,255,255,.2); border-radius:20px;
+                         padding:4px 12px; font-size:13px; }
+  .card { background:white; border-radius:16px; margin:16px; padding:20px;
+          box-shadow:0 2px 10px rgba(0,0,0,.06); }
+  .card-title { font-size:15px; font-weight:700; color:#1D1D1F;
+                margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+  .field { margin-bottom:14px; }
+  .field label { display:block; font-size:12px; font-weight:600; color:#6E6E73; margin-bottom:6px; }
+  .field input, .field select, .field textarea {
+    width:100%; padding:12px 14px; border:1px solid #D2D2D7; border-radius:10px;
+    font-size:15px; color:#1D1D1F; background:#FAFAFA; outline:none; transition:border .2s;
+    -webkit-appearance:none; }
+  .field input:focus, .field select:focus { border-color:#0071E3; background:white; }
+  .btn { width:100%; padding:14px; border:none; border-radius:12px; font-size:16px;
+         font-weight:700; cursor:pointer; transition:opacity .2s; -webkit-tap-highlight-color:transparent; }
+  .btn:active { opacity:.8; }
+  .btn-primary  { background:#0071E3; color:white; }
+  .btn-success  { background:#34C759; color:white; }
+  .btn-warning  { background:#FF9500; color:white; }
+  .btn-danger   { background:#FF3B30; color:white; }
+  .btn-gray     { background:#E5E5EA; color:#1D1D1F; }
+  .btn-purple   { background:#5856D6; color:white; }
+  .btn + .btn   { margin-top:10px; }
+  .item-info { background:#F0F7FF; border-radius:12px; padding:16px; margin-bottom:16px; }
+  .item-info .item-name { font-size:17px; font-weight:700; color:#0071E3; }
+  .item-info .item-spec { font-size:13px; color:#6E6E73; margin-top:4px; }
+  .item-row { display:flex; justify-content:space-between; margin-top:8px; }
+  .item-row span { font-size:13px; color:#3A3A3C; }
+  .item-row strong { font-size:13px; font-weight:700; }
+  .badge { display:inline-block; padding:4px 10px; border-radius:20px; font-size:12px; font-weight:700; }
+  .badge-blue   { background:#EAF4FF; color:#0071E3; }
+  .badge-green  { background:#E8FFF0; color:#34C759; }
+  .badge-orange { background:#FFF5E6; color:#FF9500; }
+  .badge-red    { background:#FFE9E9; color:#FF3B30; }
+  .step-bar { display:flex; justify-content:space-between; padding:0 4px; margin-bottom:20px; }
+  .step { display:flex; flex-direction:column; align-items:center; flex:1; }
+  .step-dot { width:28px; height:28px; border-radius:50%; display:flex; align-items:center;
+              justify-content:center; font-size:12px; font-weight:700; margin-bottom:4px; }
+  .step-dot.done    { background:#34C759; color:white; }
+  .step-dot.active  { background:#0071E3; color:white; }
+  .step-dot.pending { background:#E5E5EA; color:#AEAEB2; }
+  .step-label { font-size:10px; color:#6E6E73; text-align:center; }
+  .step-line  { flex:1; height:2px; background:#E5E5EA; margin-top:13px; margin-bottom:auto; }
+  .step-line.done { background:#34C759; }
+  .alert { padding:12px 16px; border-radius:10px; margin-bottom:16px;
+           font-size:14px; font-weight:500; }
+  .alert-success { background:#E8FFF0; color:#1D7A3C; border:1px solid #34C759; }
+  .alert-error   { background:#FFE9E9; color:#C0392B; border:1px solid #FF3B30; }
+  .alert-info    { background:#EAF4FF; color:#005BBB; border:1px solid #0071E3; }
+  .login-wrap { min-height:100vh; display:flex; flex-direction:column; justify-content:center;
+                padding:32px 20px;
+                background:linear-gradient(160deg,#0071E3 0%,#004EA8 100%); }
+  .login-logo { color:white; font-size:32px; font-weight:800; text-align:center; margin-bottom:8px; }
+  .login-sub  { color:rgba(255,255,255,.7); font-size:14px; text-align:center; margin-bottom:32px; }
+  .login-card { background:white; border-radius:20px; padding:28px; }
+  /* ── 카메라 뷰 ── */
+  #cameraSection { display:none; flex-direction:column; align-items:center; }
+  #cameraSection.active { display:flex; }
+  #cameraVideo { width:100%; border-radius:12px; background:#000; max-height:56vw; object-fit:cover; }
+  #cameraCanvas { display:none; }
+  #photoPreview { width:100%; border-radius:12px; display:none; max-height:56vw; object-fit:cover; }
+  .camera-actions { display:flex; gap:10px; width:100%; margin-top:12px; }
+  .camera-actions .btn { flex:1; padding:12px; font-size:14px; }
+  .hidden { display:none; }
+  .spinner { width:24px; height:24px; border:3px solid rgba(255,255,255,.4);
+             border-top-color:white; border-radius:50%;
+             animation:spin .8s linear infinite; display:inline-block; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- ① 로그인 -->
+<div id="pageLogin" class="login-wrap">
+  <div class="login-logo">DevERP</div>
+  <div class="login-sub">모바일 입고 / 검수 관리</div>
+  <div class="login-card">
+    <div class="field"><label>아이디</label>
+      <input type="text" id="loginId" placeholder="이름(한글) 입력" autocomplete="username"></div>
+    <div class="field"><label>비밀번호</label>
+      <input type="password" id="loginPw" placeholder="비밀번호" autocomplete="current-password"></div>
+    <div id="loginError" class="alert alert-error hidden"></div>
+    <button class="btn btn-primary" onclick="doLogin()">로그인</button>
+  </div>
+</div>
+
+<!-- ② 메인 메뉴 -->
+<div id="pageMenu" class="hidden">
+  <div class="header">
+    <h1>📦 DevERP</h1>
+    <span class="user-badge" id="userBadge">-</span>
+  </div>
+  <div class="card">
+    <div class="card-title">🔍 QR 스캔 / 코드 입력</div>
+    <div class="field">
+      <input type="text" id="scanInput" placeholder="바코드 스캔 또는 QR 코드 입력"
+             onkeydown="if(event.key==='Enter') scanAction()">
+    </div>
+    <button class="btn btn-primary" onclick="scanAction()">🔍 조회 및 처리</button>
+  </div>
+</div>
+
+<!-- ③ QR 스캔 결과 + 단계처리 + 카메라 -->
+<div id="pageScan" class="hidden">
+  <div class="header">
+    <h1>📦 입고 처리</h1>
+    <span class="user-badge" onclick="goBack()" style="cursor:pointer">← 뒤로</span>
+  </div>
+
+  <!-- 품목 정보 -->
+  <div class="card" id="scanItemCard">
+    <div class="card-title">📋 품목 정보</div>
+    <div id="scanItemInfo"></div>
+    <!-- 진행 단계 -->
+    <div class="step-bar" id="stepBar"></div>
+    <div id="scanNextAction"></div>
+  </div>
+
+  <!-- ★ 카메라 섹션 -->
+  <div class="card" id="cameraCard" style="display:none">
+    <div class="card-title">📷 검수 사진 촬영</div>
+    <p style="font-size:12px;color:#6E6E73;margin-bottom:12px">
+사진을 여러 장 촬영하거나 파일에서 여러 장 선택한 후 <strong>업로드</strong>를 눌러주세요.
+    </p>
+    <div id="cameraSection">
+      <video id="cameraVideo" autoplay playsinline></video>
+      <canvas id="cameraCanvas"></canvas>
+      <img id="photoPreview" alt="촬영된 사진">
+      <div class="camera-actions">
+        <button class="btn btn-gray" id="btnRetake" onclick="retakePhoto()" style="display:none">🔄 다시찍기</button>
+        <button class="btn btn-primary" id="btnCapture" onclick="capturePhoto()">📸 촬영 추가</button>
+        <button class="btn btn-gray" onclick="document.getElementById('photoFiles').click()">🖼 여러 장 선택</button>
+        <button class="btn btn-gray" onclick="clearPhotos()">🗑 전체삭제</button>
+        <button class="btn btn-success" id="btnUpload" onclick="uploadPhotoAndScan()" style="display:none">✅ 업로드</button>
+        <input id="photoFiles" type="file" accept="image/*" multiple style="display:none" onchange="addSelectedPhotos(this.files)">
+        <div id="photoList" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"></div>
+      </div>
+    </div>
+    <div id="cameraError" class="alert alert-error hidden"></div>
+    <button class="btn btn-gray" onclick="skipPhoto()" style="margin-top:10px;font-size:13px">
+      사진 없이 처리하기
+    </button>
+  </div>
+
+  <div id="scanResult" class="hidden" style="margin:0 16px 16px"></div>
+</div>
+
+<script>
+// ── 전역 상태 ─────────────────────────────────────
+const API = window.location.origin;
+let token    = localStorage.getItem('devERP_token');
+let userData = JSON.parse(localStorage.getItem('devERP_user') || 'null');
+let currentItem = null;
+let capturedBlob = null;
+let capturedBlobs = [];
+let cameraStream = null;
+
+// ── 초기화 ────────────────────────────────────────
+window.onload = () => {
+  const path = window.location.pathname;
+  const qrMatch = path.match(/\/m\/(.+)/);
+  if (token && userData) {
+    showPage('pageMenu');
+    updateUserBadge();
+    if (qrMatch) {
+      const qr = decodeURIComponent(qrMatch[1]);
+      document.getElementById('scanInput').value = qr;
+      handleScannedQR(qr);
+    }
+  } else {
+    showPage('pageLogin');
+    if (qrMatch) localStorage.setItem('pendingQR', decodeURIComponent(qrMatch[1]));
+  }
+};
+
+function showPage(id) {
+  document.querySelectorAll('[id^="page"]').forEach(el => el.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+
+function goBack() {
+  stopCamera();
+  showPage('pageMenu');
+}
+
+function updateUserBadge() {
+  if (userData) document.getElementById('userBadge').textContent =
+    `${userData.name} (${userData.department || ''})`;
+}
+
+// ── 로그인 ────────────────────────────────────────
+async function doLogin() {
+  const id = document.getElementById('loginId').value.trim();
+  const pw = document.getElementById('loginPw').value.trim();
+  const errEl = document.getElementById('loginError');
+  if (!id || !pw) { showErr(errEl, '아이디와 비밀번호를 입력하세요.'); return; }
+  const body = new URLSearchParams({ username: id, password: pw });
+  try {
+    const res  = await fetch(`${API}/api/users/login`,
+      { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body });
+    const data = await res.json();
+    if (res.ok) {
+      token    = data.access_token;
+      userData = { name: data.name, role: data.role, department: data.department || '' };
+      localStorage.setItem('devERP_token', token);
+      localStorage.setItem('devERP_user', JSON.stringify(userData));
+      errEl.classList.add('hidden');
+      showPage('pageMenu');
+      updateUserBadge();
+      const pQR = localStorage.getItem('pendingQR');
+      if (pQR) { localStorage.removeItem('pendingQR'); handleScannedQR(pQR); }
+    } else {
+      showErr(errEl, data.detail || '로그인 실패');
+    }
+  } catch { showErr(errEl, '서버 연결 실패. 네트워크를 확인하세요.'); }
+}
+
+// ── QR 스캔 분기 ──────────────────────────────────
+async function scanAction() {
+  const val = document.getElementById('scanInput').value.trim();
+  if (!val) return;
+  await handleScannedQR(val);
+}
+
+async function handleScannedQR(qrCode) {
+  try {
+    const res  = await fetch(`${API}/api/inventory/scan/${encodeURIComponent(qrCode)}`,
+      { headers:{ Authorization:`Bearer ${token}` } });
+    const data = await res.json();
+    if (!res.ok) { alert(`QR 코드를 찾을 수 없습니다.\n코드: ${qrCode}`); return; }
+    currentItem = { ...data, qr_code: qrCode };
+    renderScanPage(data, qrCode);
+    showPage('pageScan');
+  } catch { alert('서버 연결 오류'); }
+}
+
+function renderScanPage(item, qrCode) {
+  // ── 단계 정의 ──
+  const stages = ['미입고','구매팀입고','품질검수','생산팀입고'];
+  const labels  = ['미입고','구매팀\n입고','품질\n검수','생산팀\n입고'];
+  const cur = stages.indexOf(item.stage);
+
+  // 품목 정보
+  document.getElementById('scanItemInfo').innerHTML = `
+    <div class="item-info">
+      <div class="item-name">${item.item_name}</div>
+      <div class="item-spec">${item.spec || ''}</div>
+      <div class="item-row"><span>발주번호</span><strong>${item.order_no || '-'}</strong></div>
+      <div class="item-row"><span>업체</span><strong>${item.vendor || '-'}</strong></div>
+      <div class="item-row"><span>수량</span><strong>${item.quantity} ${item.unit || 'EA'}</strong></div>
+      <div class="item-row"><span>납기일</span><strong>${item.delivery_date || '-'}</strong></div>
+    </div>`;
+
+  // 진행 단계 표시
+  let stepHtml = '';
+  for (let i = 0; i < stages.length; i++) {
+    const cls = i < cur ? 'done' : (i === cur ? 'active' : 'pending');
+    const icon = i < cur ? '✓' : (i + 1);
+    stepHtml += `<div class="step">
+      <div class="step-dot ${cls}">${icon}</div>
+      <div class="step-label">${labels[i].replace('\\n','<br>')}</div>
+    </div>`;
+    if (i < stages.length - 1) stepHtml += `<div class="step-line ${i < cur ? 'done' : ''}"></div>`;
+  }
+  document.getElementById('stepBar').innerHTML = stepHtml;
+
+  // 다음 처리 버튼
+  const next = item.next_stage;
+  const stageLabel = { '구매팀입고':'구매팀 입고', '품질검수':'품질검수', '생산팀입고':'생산팀 입고' };
+  if (next && next !== '완료') {
+    document.getElementById('scanNextAction').innerHTML = `
+      <button class="btn btn-success" onclick="startProcess('${qrCode}','${next}')">
+        📦 ${stageLabel[next] || next} 처리 시작
+      </button>`;
+  } else if (item.stage === '생산팀입고' || item.stage === '완료') {
+    document.getElementById('scanNextAction').innerHTML =
+      `<div class="alert alert-success">✅ 모든 입고 단계가 완료되었습니다.</div>`;
+  } else {
+    document.getElementById('scanNextAction').innerHTML =
+      `<div class="alert alert-info">현재 단계: ${item.stage}</div>`;
+  }
+
+  document.getElementById('cameraCard').style.display = 'none';
+  document.getElementById('scanResult').classList.add('hidden');
+}
+
+// ── 처리 시작 → 카메라 자동 오픈 ─────────────────
+function startProcess(qrCode, nextStage) {
+  currentItem.qr_code  = qrCode;
+  currentItem.nextStage = nextStage;
+  // 카메라 카드 보이기 + 카메라 시작
+  document.getElementById('cameraCard').style.display = 'block';
+  document.getElementById('cameraCard').scrollIntoView({ behavior:'smooth', block:'center' });
+  startCamera();
+}
+
+// ── 카메라 제어 ───────────────────────────────────
+async function startCamera() {
+  capturedBlob = null;
+  document.getElementById('photoPreview').style.display = 'none';
+  document.getElementById('cameraVideo').style.display = 'block';
+  document.getElementById('btnCapture').style.display = 'inline-block';
+  document.getElementById('btnRetake').style.display  = 'none';
+  document.getElementById('btnUpload').style.display  = 'none';
+  document.getElementById('cameraError').classList.add('hidden');
+  document.getElementById('cameraSection').classList.add('active');
+
+  try {
+    // 후면 카메라 우선
+    cameraStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: { ideal:'environment' }, width:{ ideal:1280 }, height:{ ideal:720 } }
+    });
+    document.getElementById('cameraVideo').srcObject = cameraStream;
+  } catch (e) {
+    try {
+      cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
+      document.getElementById('cameraVideo').srcObject = cameraStream;
+    } catch (e2) {
+      showErr(document.getElementById('cameraError'),
+        '카메라에 접근할 수 없습니다. 권한을 확인하세요.');
+    }
+  }
+}
+
+function stopCamera() {
+  if (cameraStream) {
+    cameraStream.getTracks().forEach(t => t.stop());
+    cameraStream = null;
+  }
+}
+
+function capturePhoto() {
+  const video  = document.getElementById('cameraVideo');
+  const canvas = document.getElementById('cameraCanvas');
+  canvas.width  = video.videoWidth  || 640;
+  canvas.height = video.videoHeight || 480;
+  canvas.getContext('2d').drawImage(video, 0, 0);
+
+  canvas.toBlob(blob => {
+    capturedBlob = blob;
+    capturedBlobs.push(blob);
+    renderPhotoList();
+    const url = URL.createObjectURL(blob);
+    const preview = document.getElementById('photoPreview');
+    preview.src = url;
+    preview.style.display = 'block';
+
+    video.style.display = 'none';
+    document.getElementById('btnCapture').style.display = 'inline-block';
+    document.getElementById('btnRetake').style.display  = 'inline-block';
+    document.getElementById('btnUpload').style.display  = 'inline-block';
+    stopCamera();
+  }, 'image/jpeg', 0.85);
+}
+
+function retakePhoto() {
+  capturedBlob = null;
+  document.getElementById('photoPreview').style.display = 'none';
+  startCamera();
+}
+function addSelectedPhotos(files){
+  Array.from(files || []).forEach(f => capturedBlobs.push(f));
+  renderPhotoList();
+  if(capturedBlobs.length) document.getElementById('btnUpload').style.display='inline-block';
+}
+function clearPhotos(){ capturedBlobs=[]; capturedBlob=null; renderPhotoList(); document.getElementById('photoPreview').style.display='none'; document.getElementById('btnUpload').style.display='none'; }
+function removePhoto(idx){ capturedBlobs.splice(idx,1); renderPhotoList(); if(!capturedBlobs.length) document.getElementById('btnUpload').style.display='none'; }
+function renderPhotoList(){
+  const box=document.getElementById('photoList'); if(!box) return; box.innerHTML='';
+  capturedBlobs.forEach((b,i)=>{ const wrap=document.createElement('div'); wrap.style.cssText='position:relative;width:72px;height:72px;border:1px solid #ddd;border-radius:8px;overflow:hidden;background:#fff'; const img=document.createElement('img'); img.src=URL.createObjectURL(b); img.style.cssText='width:100%;height:100%;object-fit:cover'; const del=document.createElement('button'); del.textContent='×'; del.onclick=()=>removePhoto(i); del.style.cssText='position:absolute;right:0;top:0;border:0;background:#ff3b30;color:#fff;border-radius:0 0 0 6px'; wrap.appendChild(img); wrap.appendChild(del); box.appendChild(wrap); });
+}
+
+// ── 사진 업로드 + 단계 처리 ──────────────────────
+async function uploadPhotoAndScan() {
+  const resEl = document.getElementById('scanResult');
+  if (!capturedBlobs.length) { showErr(resEl, '먼저 사진을 촬영하거나 선택하세요.'); return; }
+
+  const fd = new FormData();
+  fd.append('qr_code',    currentItem.qr_code);
+  fd.append('scanned_by', userData.name);
+  capturedBlobs.forEach((blob, idx)=>fd.append('photos', blob, `photo_${Date.now()}_${idx+1}.jpg`));
+
+  try {
+    const res  = await fetch(`${API}/api/inventory/scan_with_photo`,
+      { method:'POST', headers:{ Authorization:`Bearer ${token}` }, body: fd });
+    const data = await res.json();
+
+    resEl.className = res.ok && data.success ? 'alert alert-success' : 'alert alert-error';
+    resEl.textContent = res.ok ? data.message : (data.detail || data.message || '오류 발생');
+    resEl.classList.remove('hidden');
+
+    if (res.ok && data.success) {
+      document.getElementById('cameraCard').style.display = 'none';
+      stopCamera();
+      clearPhotos();
+      // 품목 정보 갱신
+      await refreshItem(currentItem.qr_code);
+    }
+  } catch {
+    resEl.className = 'alert alert-error';
+    resEl.textContent = '서버 연결 오류';
+    resEl.classList.remove('hidden');
+  }
+}
+
+// ── 사진 없이 처리 (기존 scan API) ──────────────
+async function skipPhoto() {
+  const resEl = document.getElementById('scanResult');
+  const stageToRole = { '구매팀입고':'purchase', '품질검수':'quality', '생산팀입고':'manufacture' };
+  const role = stageToRole[currentItem.nextStage] || 'purchase';
+
+  try {
+    const res  = await fetch(`${API}/api/inventory/scan`,
+      { method:'POST', headers:{ Authorization:`Bearer ${token}`, 'Content-Type':'application/json' },
+        body: JSON.stringify({ qr_code: currentItem.qr_code, role, scanned_by: userData.name }) });
+    const data = await res.json();
+
+    resEl.className = (res.ok && data.success) ? 'alert alert-success' : 'alert alert-error';
+    resEl.textContent = (res.ok && data.success) ? data.message : (data.message || data.detail || '오류');
+    resEl.classList.remove('hidden');
+
+    if (res.ok && data.success) {
+      document.getElementById('cameraCard').style.display = 'none';
+      stopCamera();
+      await refreshItem(currentItem.qr_code);
+    }
+  } catch {
+    resEl.className = 'alert alert-error';
+    resEl.textContent = '서버 오류';
+    resEl.classList.remove('hidden');
+  }
+}
+
+async function refreshItem(qrCode) {
+  try {
+    const res  = await fetch(`${API}/api/inventory/scan/${encodeURIComponent(qrCode)}`,
+      { headers:{ Authorization:`Bearer ${token}` } });
+    if (res.ok) {
+      const data = await res.json();
+      currentItem = { ...data, qr_code: qrCode };
+      renderScanPage(data, qrCode);
+    }
+  } catch { /* ignore */ }
+}
+
+// ── 유틸 ──────────────────────────────────────────
+function showErr(el, msg) {
+  el.textContent = msg;
+  el.classList.remove('hidden');
+}
+</script>
+</body>
+</html>

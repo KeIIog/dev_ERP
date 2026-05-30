@@ -1,0 +1,15 @@
+{
+  "bizbox_id": "sh.ko",
+  "bizbox_pw": "shko1111!",
+  "claude_api_key": "",
+  "user_name": "",
+  "department": "",
+  "designer_name": "고성훈 책임",
+  "designer_phone": "010-2494-6398",
+  "orderer_name": "",
+  "orderer_phone": "",
+  "api_server_url": "http://192.168.100.72:8000",
+  "use_ngrok": true,
+  "public_mobile_url": "",
+  "ngrok_authtoken": "3CjPOtVZIRggP8ESyIC7UrD6h3J_2wDLJuekBi4BE8efRHrhp"
+}
